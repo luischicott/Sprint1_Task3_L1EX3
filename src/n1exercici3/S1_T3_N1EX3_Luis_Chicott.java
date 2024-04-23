@@ -1,6 +1,8 @@
 package n1exercici3;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -13,75 +15,26 @@ import javax.swing.JOptionPane;
 public class S1_T3_N1EX3_Luis_Chicott {
 	
 	static ArrayList<String> countriesKeys = new ArrayList(); 
+	static HashMap<String, String> countries = new HashMap<>();
 
 	public static void main(String[] args) {
 		
 		String name; 
 		String capital; 
 		int score = 0; 
-		HashMap<String, String> countries = new HashMap<>();
+		loadCountriesFromFile("countries.txt");
 
 		Scanner input = new Scanner(System.in); 
+
+	    
 		
-		countries.put("Albania", "Tirana"); 
-		countries.put("Andorra", "Andorra_la_Vella");
-        countries.put("Armenia", "Ereván");
-        countries.put("Austria", "Vienna");
-        countries.put("Azerbaijan", "Baku");
-        countries.put("Belarus", "Minsk");
-        countries.put("Belgium", "Brussels");
-        countries.put("Bosnia_and_Herzegovina", "Sarajevo");
-        countries.put("Bulgaria", "Sofia");
-        countries.put("Croatia", "Zagreb");
-        countries.put("Cyprus", "Nicosia");
-        countries.put("Czechia", "Prague");
-        countries.put("Denmark", "Copenhagen");
-        countries.put("Estonia", "Tallin");
-        countries.put("Finland", "Helsinki");
-        countries.put("France", "Paris");
-        countries.put("Georgia", "Atlanta");
-        countries.put("Germany", "Berlin");
-        countries.put("Greece", "Athens");
-        countries.put("Hungary", "Budapest");
-        countries.put("Iceland", "Reikiavik");
-        countries.put("Ireland", "Dublin");
-        countries.put("Italy", "Rome");
-        countries.put("Kazakhstan", "Nur-Sultan");
-        countries.put("Kosovo", "Pristina");
-        countries.put("Latvia", "Riga");
-        countries.put("Liechtenstein", "Vaduz");
-        countries.put("Lithuania", "Vilnius");
-        countries.put("Luxembourg", "Luxembourg");
-        countries.put("Malta", "Valletta");
-        countries.put("Moldova", "Chisinau");
-        countries.put("Monaco", "Monte_Carlo");
-        countries.put("Montenegro", "Podgorica");
-        countries.put("Netherlands", "Amsterdam");
-        countries.put("North_Macedonia", "Skpje");
-        countries.put("Norway", "Oslo");
-        countries.put("Poland", "Warsaw");
-        countries.put("Portugal", "Lisbon");
-        countries.put("Romania", "Bucharest");
-        countries.put("Russia", "Moscow");
-        countries.put("San_Marino", "San_Marino");
-        countries.put("Serbia", "Belgrade");
-        countries.put("Slovakia", "Bratislava");
-        countries.put("Slovenia", "Ljubljana");
-        countries.put("Spain", "Madrid");
-        countries.put("Sweden", "Stockholm");
-        countries.put("Switzerland", "Bern");
-        countries.put("Turkey", "Ankara");
-        countries.put("Ukraine", "Kyiv");
-        countries.put("United_Kingdom", "London");
-        countries.put("Vatican_City", "Vatican_City");
         
-        countriesKeys.addAll(countries.keySet()); 
-        
+     countriesKeys.addAll(countries.keySet()); 
        
        	name = JOptionPane.showInputDialog("Ingrese su nombre:");
        	
         
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < 10; i++) {
         	String randomCountry = randomCountry(); 
         	String randomCapital = countries.get(randomCountry);
         	capital = JOptionPane.showInputDialog(name + ", diga la capital de " + randomCountry ); 
@@ -103,7 +56,8 @@ public class S1_T3_N1EX3_Luis_Chicott {
 	
 	public static String randomCountry() {
         Random randomCountry = new Random();
-        return  countriesKeys.get(randomCountry.nextInt(countriesKeys.size())); 
+        return  countriesKeys.get(randomCountry.nextInt(countriesKeys.size()));
+
     }
 	
 	public static void result(String name, int score) {
@@ -117,5 +71,24 @@ public class S1_T3_N1EX3_Luis_Chicott {
             e.printStackTrace();
         }
     }
+	
+	
+	public static void loadCountriesFromFile(String filename) {
+	    try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
+	        String line;
+	        while ((line = br.readLine()) != null) {
+	            int spaceIndex = line.indexOf(' ');
+	            if (spaceIndex != -1) {
+	                String country = line.substring(0, spaceIndex);
+	                String capital = line.substring(spaceIndex + 1);
+	                countries.put(country, capital);
+	                countriesKeys.add(country);
+	            }
+	        }
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	    }
+	}
+
 
 }
